@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect, type FormEvent } from 'react';
@@ -24,13 +25,21 @@ export function ChatInterface() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  useEffect(() => {
+  const scrollToBottom = () => {
     if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTo({
-        top: scrollAreaRef.current.scrollHeight,
-        behavior: 'smooth',
-      });
+      const viewport = scrollAreaRef.current.querySelector('div[data-radix-scroll-area-viewport]');
+      if (viewport) {
+        viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
+      }
     }
+  };
+
+  useEffect(() => {
+    // A small delay to allow the new message to render before scrolling
+    const timer = setTimeout(() => {
+      scrollToBottom();
+    }, 100);
+    return () => clearTimeout(timer);
   }, [messages]);
 
   const handleSubmit = async (e: FormEvent) => {
@@ -79,13 +88,16 @@ export function ChatInterface() {
   };
 
   return (
-    <Card className="w-full max-w-4xl mx-auto flex flex-col h-[80vh]">
-      <CardHeader>
-        <CardTitle className="font-headline text-primary">Conversational AI</CardTitle>
+    <Card className="w-full max-w-4xl mx-auto flex flex-col h-[75vh] shadow-2xl shadow-primary/10">
+      <CardHeader className="border-b">
+        <CardTitle className="font-headline text-primary flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6"><path d="m12 1-1.88 4.22-4.22 1.88 4.22 1.88L12 13l1.88-4.22 4.22-1.88-4.22-1.88Z"/><path d="m12 13 1.88 4.22 4.22 1.88-4.22 1.88L12 23l-1.88-4.22-4.22-1.88 4.22-1.88Z"/><path d="m5.22 9.22 1.88-4.22L1 3l1.88 4.22Z"/><path d="m18.78 9.22-1.88-4.22L23 3l-1.88 4.22Z"/><path d="m5.22 14.78 1.88 4.22L1 21l1.88-4.22Z"/><path d="m18.78 14.78-1.88 4.22L23 21l-1.88-4.22Z"/></svg>
+          Conversational AI
+        </CardTitle>
       </CardHeader>
-      <CardContent className="flex-grow overflow-hidden">
-        <ScrollArea className="h-full pr-4" ref={scrollAreaRef}>
-          <div className="flex flex-col gap-2">
+      <CardContent className="flex-grow overflow-hidden p-0">
+        <ScrollArea className="h-full" ref={scrollAreaRef}>
+          <div className="flex flex-col gap-1 p-4">
             {messages.map((message) => (
               <ChatMessage key={message.id} message={message} />
             ))}
@@ -97,12 +109,12 @@ export function ChatInterface() {
           </div>
         </ScrollArea>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="border-t pt-6">
         <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2">
           <Input
             id="message"
-            placeholder="Type your message..."
-            className="flex-1"
+            placeholder="Type your message to Think AI..."
+            className="flex-1 text-base"
             autoComplete="off"
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -110,9 +122,9 @@ export function ChatInterface() {
           />
           <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
             {isLoading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <Loader2 className="h-5 w-5 animate-spin" />
             ) : (
-              <Send className="h-4 w-4" />
+              <Send className="h-5 w-5" />
             )}
             <span className="sr-only">Send</span>
           </Button>

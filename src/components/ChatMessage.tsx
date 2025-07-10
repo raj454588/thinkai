@@ -1,6 +1,6 @@
 import type { Message } from '@/lib/types';
 import { cn } from '@/lib/utils';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Avatar, AvatarFallback } from './ui/avatar';
 import { CodeBlock } from './CodeBlock';
 import { Bot, User } from 'lucide-react';
 
@@ -14,20 +14,20 @@ export function ChatMessage({ message }: ChatMessageProps) {
   const parts = message.content.split(codeBlockRegex);
 
   return (
-    <div className={cn('flex items-start gap-4 py-4', { 'justify-end': !isAi })}>
+    <div className={cn('flex items-start gap-3 py-3', { 'justify-end': !isAi })}>
       {isAi && (
-        <Avatar className="h-9 w-9 border border-primary/50">
-          <AvatarFallback className="bg-primary text-primary-foreground">
+        <Avatar className="h-9 w-9 border-2 border-primary/40 bg-primary/20">
+          <AvatarFallback className="bg-transparent text-primary">
             <Bot className="h-5 w-5" />
           </AvatarFallback>
         </Avatar>
       )}
       <div
         className={cn(
-          'max-w-[80%] rounded-lg px-4 py-3 text-sm flex flex-col',
+          'max-w-[85%] rounded-2xl px-4 py-3 text-base flex flex-col shadow-sm',
           isAi
-            ? 'bg-secondary'
-            : 'bg-primary text-primary-foreground'
+            ? 'bg-secondary rounded-bl-none'
+            : 'bg-primary text-primary-foreground rounded-br-none'
         )}
       >
         {parts.map((part, index) => {
@@ -47,9 +47,9 @@ export function ChatMessage({ message }: ChatMessageProps) {
         })}
       </div>
       {!isAi && (
-         <Avatar className="h-9 w-9 border border-border">
+         <Avatar className="h-9 w-9 border-2 border-border bg-background">
           <AvatarFallback>
-            <User className="h-5 w-5" />
+            <User className="h-5 w-5 text-muted-foreground" />
           </AvatarFallback>
         </Avatar>
       )}

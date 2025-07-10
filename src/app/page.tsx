@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Loader2 } from "lucide-react";
+import { InfoSection } from "@/components/InfoSection";
 
 export default function Home() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -29,8 +30,9 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-secondary/40">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-8 flex items-center justify-center">
+      <main className="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-start gap-12">
         <ChatInterface />
+        <InfoSection />
       </main>
       <footer className="py-4 text-center text-sm text-muted-foreground">
         <p>&copy; {new Date().getFullYear()} Think AI Lite. Developed by Jug Kabariya & Akshay Hirpara.</p>

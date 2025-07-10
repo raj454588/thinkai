@@ -52,3 +52,18 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  @keyframes animated-border {
+    0% { border-color: hsl(var(--primary)); }
+    25% { border-color: hsl(var(--accent)); }
+    50% { border-color: hsl(var(--secondary)); }
+    75% { border-color: hsl(var(--ring)); }
+    100% { border-color: hsl(var(--primary)); }
+  }
+
+  .animate-borderline {
+    border-width: 2px;
+    animation: animated-border 5s linear infinite;
+  }
+}

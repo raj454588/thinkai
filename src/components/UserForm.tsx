@@ -4,7 +4,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -23,40 +22,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useToast } from '@/hooks/use-toast';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
 import { Textarea } from './ui/textarea';
-import { useAuth } from '@/context/AuthContext';
+import type { User } from '@/lib/types';
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
-  }),
-  password: z.string().min(8, {
-    message: 'Password must be at least 8 characters.',
-  }),
-  mobile: z.string().regex(/^\d{10}$/, {
-    message: 'Please enter a valid 10-digit mobile number.',
-  }),
-  skill: z.string().min(2, {
-    message: 'Please describe your skills.',
-  }),
-  aiKnowledge: z.enum(['beginner', 'intermediate', 'advanced'], {
-    required_error: 'Please select your AI knowledge level.',
-  }),
+  username: z.string().min(2, { message: 'Username must be at least 2 characters.' }),
+  password: z.string().min(8, { message: 'Password must be at least 8 characters.' }).optional().or(z.literal('')),
+  mobile: z.string().regex(/^\d{10}$/, { message: 'Please enter a valid 10-digit mobile number.' }),
+  skill: z.string().min(2, { message: 'Please describe your skills.' }),
+  aiKnowledge: z.enum(['beginner', 'intermediate', 'advanced'], { required_error: 'Please select your AI knowledge level.' }),
 });
 
-export function SignUpForm() {
-  const { toast } = useToast();
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const { addUser, login } = useAuth();
+type UserFormValues = Omit<User, 'id'>;
 
+interface UserFormProps {
+  onFormSubmit: (values: UserFormValues) => void;
+  defaultValues?: Partial<UserFormValues>;
+}
+
+export function UserForm({ onFormSubmit, defaultValues }: UserFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: defaultValues || {
       username: '',
       password: '',
       mobile: '',
@@ -65,18 +52,12 @@ export function SignUpForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsLoading(true);
-    // This is a mocked API call.
-    setTimeout(() => {
-      addUser(values);
-      login(values.username); // Auto-login after sign up
-      setIsLoading(false);
-      toast({
-        title: 'Account created!',
-        description: "You've been successfully signed up.",
-      });
-      router.push('/');
-    }, 1500);
+    // Don't submit password if it wasn't changed (for edit form)
+    const dataToSubmit: UserFormValues = { ...values };
+    if (!values.password) {
+      delete dataToSubmit.password;
+    }
+    onFormSubmit(dataToSubmit);
   }
 
   return (
@@ -102,8 +83,11 @@ export function SignUpForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="********" {...field} />
+                <Input type="password" placeholder={defaultValues ? "Leave blank to keep current" : "********"} {...field} />
               </FormControl>
+               <FormDescription>
+                {defaultValues ? "Leave blank to keep the current password." : "Must be at least 8 characters."}
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -130,9 +114,6 @@ export function SignUpForm() {
               <FormControl>
                 <Textarea placeholder="e.g., React, Next.js, Genkit" {...field} />
               </FormControl>
-              <FormDescription>
-                Briefly describe your technical skills.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -146,7 +127,7 @@ export function SignUpForm() {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select your knowledge level" />
+                    <SelectValue placeholder="Select knowledge level" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -159,10 +140,9 @@ export function SignUpForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Sign Up
-        </Button>
+        <div className="flex justify-end pt-4">
+            <Button type="submit">Save changes</Button>
+        </div>
       </form>
     </Form>
   );

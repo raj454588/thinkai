@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -10,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { Menu, User, LogOut } from 'lucide-react';
+import { Menu, User, LogOut, ShieldCheck } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -24,6 +25,8 @@ export function NavMenu() {
     logout();
     router.push('/login');
   };
+
+  const isAdmin = user?.username === 'admin';
 
   if (isMobile) {
     return (
@@ -42,6 +45,11 @@ export function NavMenu() {
               <DropdownMenuItem asChild>
                 <Link href="/">Chat</Link>
               </DropdownMenuItem>
+              {isAdmin && (
+                <DropdownMenuItem asChild>
+                  <Link href="/admin">Admin</Link>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
             </>
           ) : (
@@ -62,23 +70,33 @@ export function NavMenu() {
   return (
     <nav className="flex items-center gap-4">
       {isAuthenticated ? (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className='gap-2'>
-              <User className="h-5 w-5" />
-              <span>{user?.username}</span>
+        <>
+          {isAdmin && (
+            <Button variant="ghost" asChild>
+                <Link href="/admin" className="flex items-center gap-2">
+                    <ShieldCheck className="h-5 w-5" />
+                    Admin Panel
+                </Link>
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem disabled>Profile</DropdownMenuItem>
-            <DropdownMenuItem onClick={handleLogout} className="text-red-500 focus:text-red-400">
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          )}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className='gap-2'>
+                <User className="h-5 w-5" />
+                <span>{user?.username}</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem disabled>Profile</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout} className="text-red-500 focus:text-red-400">
+                <LogOut className="mr-2 h-4 w-4" />
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </>
       ) : (
         <>
           <Button variant="ghost" asChild>

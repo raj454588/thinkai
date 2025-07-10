@@ -1,3 +1,4 @@
+
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -45,18 +46,30 @@ export function LoginForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    // This is a mocked API call. In a real app, you'd verify credentials.
-    console.log('Logging in with:', values);
+    
+    // This is a mocked API call.
     setTimeout(() => {
-      login(values.username);
+      const success = login(values.username, values.password);
       setIsLoading(false);
-      // On successful login, you would typically receive a token and store it.
-      toast({
-        title: 'Login Successful!',
-        description: `Welcome back, ${values.username}!`,
-      });
-      router.push('/');
-    }, 1500);
+      
+      if (success) {
+        toast({
+          title: 'Login Successful!',
+          description: `Welcome back, ${values.username}!`,
+        });
+        if (values.username === 'admin') {
+          router.push('/admin');
+        } else {
+          router.push('/');
+        }
+      } else {
+        toast({
+          title: 'Login Failed',
+          description: 'Invalid username or password.',
+          variant: 'destructive',
+        });
+      }
+    }, 1000);
   }
 
   return (

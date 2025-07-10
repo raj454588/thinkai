@@ -30,7 +30,7 @@ export function Header() {
                 </linearGradient>
                 <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
                   <feGaussianBlur
-                    stdDeviation="2.5"
+                    stdDeviation="2"
                     result="coloredBlur"
                   ></feGaussianBlur>
                   <feMerge>
@@ -40,22 +40,21 @@ export function Header() {
                 </filter>
                 <style>
                   {`
-                    @keyframes pulse {
-                      0%, 100% { r: 1.5; opacity: 0.8; }
-                      50% { r: 2.5; opacity: 1; }
+                    @keyframes pulse-node {
+                      0%, 100% { r: 3; opacity: 0.7; }
+                      50% { r: 4; opacity: 1; }
                     }
                     .node {
-                       animation: pulse 3s ease-in-out infinite;
+                       animation: pulse-node 3s ease-in-out infinite;
                     }
-                    .node:nth-child(2) { animation-delay: 0.2s; }
-                    .node:nth-child(3) { animation-delay: 0.5s; }
-                    .node:nth-child(4) { animation-delay: 0.8s; }
-                    .node:nth-child(5) { animation-delay: 1.1s; }
-                    .node:nth-child(6) { animation-delay: 1.4s; }
-                    .node:nth-child(7) { animation-delay: 1.7s; }
-                    .node:nth-child(8) { animation-delay: 2s; }
-                    .node:nth-child(9) { animation-delay: 2.3s; }
-                    .node:nth-child(10) { animation-delay: 2.6s; }
+                    .node:nth-child(2) { animation-delay: 0.3s; }
+                    .node:nth-child(3) { animation-delay: 0.6s; }
+                    .node:nth-child(4) { animation-delay: 0.9s; }
+                    .node:nth-child(5) { animation-delay: 1.2s; }
+                    .node:nth-child(6) { animation-delay: 1.5s; }
+                    .node:nth-child(7) { animation-delay: 1.8s; }
+                    .node:nth-child(8) { animation-delay: 2.1s; }
+                    .node:nth-child(9) { animation-delay: 2.4s; }
                     
                     @keyframes draw-line {
                         to {
@@ -63,17 +62,15 @@ export function Header() {
                         }
                     }
                     .line {
-                        stroke-dasharray: 50;
-                        stroke-dashoffset: 50;
-                        animation: draw-line 4s ease-in-out infinite;
+                        stroke-dasharray: 100;
+                        stroke-dashoffset: 100;
+                        animation: draw-line 5s ease-in-out infinite;
                     }
-                    .line:nth-child(2) { animation-delay: 0.3s; }
-                    .line:nth-child(3) { animation-delay: 0.6s; }
-                    .line:nth-child(4) { animation-delay: 0.9s; }
-                    .line:nth-child(5) { animation-delay: 1.2s; }
-                    .line:nth-child(6) { animation-delay: 1.5s; }
-                    .line:nth-child(7) { animation-delay: 1.8s; }
-                    .line:nth-child(8) { animation-delay: 2.1s; }
+                    .line:nth-child(2) { animation-delay: 0.5s; }
+                    .line:nth-child(3) { animation-delay: 1s; }
+                    .line:nth-child(4) { animation-delay: 1.5s; }
+                    .line:nth-child(5) { animation-delay: 2s; }
+                    .line:nth-child(6) { animation-delay: 2.5s; }
 
                     .logo-text {
                       font-family: 'Space Grotesk', sans-serif;
@@ -81,44 +78,45 @@ export function Header() {
                       font-weight: bold;
                       fill: hsl(var(--foreground));
                     }
+
+                    .ai-text {
+                      font-family: 'Inter', sans-serif;
+                      font-size: 18px;
+                      font-weight: 500;
+                      fill: hsl(var(--primary-foreground));
+                    }
                   `}
                 </style>
               </defs>
 
-              <g filter="url(#glow)">
-                <path
-                  d="M25,5 C12,5 5,15 5,25 C5,35 12,45 25,45 C32,45 38,40 42,35 M25,5 C38,5 45,15 45,25 C45,35 38,45 25,45 M25,5 Q30,15 25,25 M25,45 Q30,35 25,25 M20,15 C15,20 15,30 20,35 M30,15 C35,20 35,30 30,35"
-                  stroke="url(#brain-gradient)"
-                  strokeWidth="1.5"
-                  fill="none"
-                />
-
-                <g className="lines" stroke="hsl(var(--accent))" strokeWidth="0.5" opacity="0.7">
-                    <line x1="15" y1="15" x2="25" y2="8" className="line" />
-                    <line x1="25" y1="8" x2="35" y2="15" className="line" />
-                    <line x1="10" y1="25" x2="18" y2="20" className="line" />
-                    <line x1="40" y1="25" x2="32" y2="30" className="line" />
-                    <line x1="18" y1="30" x2="25" y2="42" className="line" />
-                    <line x1="25" y1="42" x2="32" y2="30" className="line" />
-                    <line x1="25" y1="25" x2="18" y2="20" className="line" />
-                    <line x1="25" y1="25" x2="32" y2="30" className="line" />
-                </g>
-
-                <g className="nodes" fill="hsl(var(--primary))">
-                  <circle cx="25" cy="8" r="1.5" className="node" />
-                  <circle cx="15" cy="15" r="1.5" className="node" />
-                  <circle cx="35" cy="15" r="1.5" className="node" />
-                  <circle cx="18" cy="20" r="1.5" className="node" />
-                  <circle cx="10" cy="25" r="1.5" className="node" />
-                  <circle cx="40" cy="25" r="1.5" className="node" />
-                  <circle cx="18" cy="30" r="1.5" className="node" />
-                  <circle cx="32" cy="30" r="1.5" className="node" />
-                  <circle cx="25" cy="42" r="1.5" className="node" />
-                  <circle cx="25" cy="25" r="2" className="node" />
+              <g transform="translate(0, 2)">
+                <g filter="url(#glow)">
+                  <path d="M25 2C15.6 2 8 9.65 8 19C8 28.35 15.6 36 25 36C29.2 36 33.35 34.2 36.5 31.5M25 2C34.4 2 42 9.65 42 19C42 28.35 34.4 36 25 36C20.8 36 16.65 34.2 13.5 31.5" stroke="hsl(var(--primary))" stroke-width="3" fill="hsla(var(--primary), 0.2)" />
+                  <g class="nodes" fill="hsl(var(--accent))">
+                      <circle cx="15" cy="12" r="3" class="node" />
+                      <circle cx="12" cy="22" r="3" class="node" />
+                      <circle cx="20" cy="29" r="3" class="node" />
+                      <circle cx="35" cy="12" r="3" class="node" />
+                      <circle cx="38" cy="22" r="3" class="node" />
+                      <circle cx="30" cy="29" r="3" class="node" />
+                      <circle cx="25" cy="5" r="3" class="node" />
+                      <circle cx="25" cy="33" r="3" class="node" />
+                  </g>
+                  <rect x="17" y="11" width="16" height="16" rx="4" fill="hsl(var(--primary))" />
+                  <text x="25" y="25" text-anchor="middle" class="ai-text">AI</text>
+                  
+                  <g class="lines" stroke="hsl(var(--accent))" stroke-width="1.5" opacity="0.8">
+                      <line x1="25" y1="5" x2="25" y2="11" class="line" />
+                      <line x1="15" y1="12" x2="17" y2="15" class="line" />
+                      <line x1="12" y1="22" x2="17" y2="19" class="line" />
+                      <line x1="35" y1="12" x2="33" y2="15" class="line" />
+                      <line x1="38" y1="22" x2="33" y2="19" class="line" />
+                      <line x1="25" y1="33" x2="25" y2="27" class="line" />
+                  </g>
                 </g>
               </g>
 
-              <text x="60" y="33" className="logo-text">Think AI</text>
+              <text x="55" y="29" className="logo-text">Think AI</text>
             </svg>
           </div>
         </div>

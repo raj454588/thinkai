@@ -32,6 +32,9 @@ export default function Home() {
       <main className="flex-grow container mx-auto px-4 py-8 flex items-center justify-center">
         <ChatInterface />
       </main>
+      <footer className="py-4 text-center text-sm text-muted-foreground">
+        <p>&copy; {new Date().getFullYear()} Think AI Lite. Developed by Jug Kabariya & Akshay Hirpara.</p>
+      </footer>
     </div>
   );
 }

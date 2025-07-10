@@ -55,7 +55,7 @@ export function Header() {
                   <circle cx="28.083" cy="24.75" r="1.25" />
                 </g>
               </g>
-              <text x="40" y="29" className="logo-text">Think AI</text>
+              <text x="40" y="29" className="logo-text">Think AI Lite</text>
             </svg>
           </div>
         </div>

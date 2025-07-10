@@ -1,3 +1,4 @@
+
 import { NavMenu } from './NavMenu';
 
 export function Header() {
@@ -30,30 +31,42 @@ export function Header() {
                       to { opacity: 1; transform: translateY(0); }
                     }
                     .logo-icon-group {
-                       animation: fadeIn 1s ease-out 0.2s forwards, shimmer 5s infinite linear;
+                       animation: fadeIn 1s ease-out 0.2s forwards;
                        opacity: 0;
                     }
-                    @keyframes shimmer {
-                      0% { filter: brightness(1); }
-                      50% { filter: brightness(1.2); }
-                      100% { filter: brightness(1); }
+                    .logo-icon-group .brain-path {
+                        stroke-dasharray: 1000;
+                        stroke-dashoffset: 1000;
+                        animation: draw 5s ease-in-out infinite alternate;
+                    }
+                    .logo-icon-group .node {
+                        animation: pulse 2s ease-in-out infinite alternate;
+                    }
+                    @keyframes draw {
+                        to {
+                            stroke-dashoffset: 0;
+                        }
+                    }
+                    @keyframes pulse {
+                        0%, 100% { r: 1.5; opacity: 0.7; }
+                        50% { r: 2.5; opacity: 1; }
                     }
                   `}
                 </style>
               </defs>
-              <g className="logo-icon-group">
-                <path 
-                  d="M4.167 8.333A4.167 4.167 0 0 0 0 12.5v15a4.167 4.167 0 0 0 4.167 4.167h15a4.167 4.167 0 0 0 4.166-4.167v-15A4.167 4.167 0 0 0 19.166 8.333H4.167zm0-2.5h15a6.667 6.667 0 0 1 6.666 6.667v15a6.667 6.667 0 0 1-6.666 6.667h-15A6.667 6.667 0 0 1-2.5 27.5v-15A6.667 6.667 0 0 1 4.167 5.833z" 
-                  transform="scale(1.2)" 
-                  fill="url(#logo-gradient)" 
-                />
-                <g stroke="url(#logo-gradient)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none">
-                  <path d="M19.125 19.958c0 2.95-1.575 4.125-3.208 4.125-1.25 0-1.792-.667-2.25-1.25-.833-1.042-2.25-2.292-2.25-4.542s1.417-3.5 2.25-4.542c.458-.583 1-1.25 2.25-1.25 1.633 0 3.208 1.175 3.208 4.125zM13.667 12.458c-2.042 0-2.917 1.25-3.542 2.25-.5.833-1.25 2.25-1.25 4.542 0 .5.042.958.125 1.375" />
-                  <path d="M20.833 15.167h2.292m-2.292 4.791h3.958m-3.958 4.792h2.292" />
-                  <circle cx="28.083" cy="15.167" r="1.25" />
-                  <circle cx="29.75" cy="19.958" r="1.25" />
-                  <circle cx="28.083" cy="24.75" r="1.25" />
-                </g>
+              <g className="logo-icon-group" transform="scale(1.2) translate(0, 2)">
+                <path className="brain-path" d="M22.5,13.2C22.5,13.2,22.5,13.2,22.5,13.2c-1.2-0.6-2.6-0.9-4-0.9c-2.3,0-4.4,1-5.8,2.7c-0.6,0.7-1.1,1.5-1.5,2.4
+	c-0.8,1.8-1.2,3.8-1.2,5.8s0.4,4,1.2,5.8c0.4,0.9,0.9,1.7,1.5,2.4c1.4,1.7,3.5,2.7,5.8,2.7c1.4,0,2.8-0.3,4-0.9
+	c0.6-0.3,1.2-0.7,1.7-1.2c1.3-1.2,2.3-2.8,2.8-4.6c0.2-0.7,0.3-1.3,0.4-2.1c0.1-0.9,0.2-1.8,0.2-2.8s-0.1-1.9-0.2-2.8
+	c-0.1-0.7-0.2-1.4-0.4-2.1c-0.5-1.8-1.5-3.4-2.8-4.6C23.7,13.8,23.1,13.5,22.5,13.2z M12.5,6.5C12.5,6.5,12.5,6.5,12.5,6.5
+	c-1,0-1.9,0.2-2.8,0.5c-1.4,0.5-2.6,1.4-3.5,2.5C5.3,10.6,4.5,11.8,4,13.1c-0.9,2.4-1.4,5-1.4,7.7s0.5,5.3,1.4,7.7
+	c0.5,1.3,1.3,2.5,2.3,3.5c1,1.1,2.2,2,3.5,2.5c0.9,0.3,1.8,0.5,2.8,0.5" stroke="url(#logo-gradient)" strokeWidth="1.2" fill="none" />
+                <circle className="node" cx="12.5" cy="6.5" r="1.5" fill="url(#logo-gradient)" />
+                <circle className="node" cx="18.5" cy="12.3" r="2" fill="url(#logo-gradient)" />
+                <circle className="node" cx="10" cy="20.8" r="2.5" fill="url(#logo-gradient)" />
+                <circle className="node" cx="18.5" cy="29.5" r="1.5" fill="url(#logo-gradient)" />
+                <circle className="node" cx="27" cy="20.8" r="2" fill="url(#logo-gradient)" />
+
               </g>
               <text x="40" y="29" className="logo-text">Think AI Lite</text>
             </svg>

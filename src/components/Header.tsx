@@ -7,53 +7,69 @@ export function Header() {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="h-10 flex items-center">
-            <svg
-              viewBox="0 0 200 40"
+             <svg
+              viewBox="0 0 100 100"
               xmlns="http://www.w3.org/2000/svg"
               className="h-full w-auto"
             >
               <defs>
                 <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 1 }} />
-                  <stop offset="100%" style={{ stopColor: 'hsl(var(--accent))', stopOpacity: 1 }} />
+                  <stop offset="0%" stopColor="#f77737" />
+                  <stop offset="50%" stopColor="#f56040" />
+                  <stop offset="100%" stopColor="#c13584" />
                 </linearGradient>
                 <style>
                   {`
                     .logo-text {
                       font-family: 'Space Grotesk', sans-serif;
-                      font-size: 28px;
+                      font-size: 36px;
                       font-weight: bold;
                       fill: hsl(var(--foreground));
                     }
                   `}
                 </style>
               </defs>
-              <g transform="scale(0.8) translate(5, 5)">
-                 <path
-                  d="M14.998,2.022C11.13,2.022,8,5.153,8,9.022c0,1.439,0.435,2.785,1.21,3.925l-2.043,2.043
-	c-0.384,0.384-0.384,1.008,0,1.392l1.392,1.392c0.384,0.384,1.008,0.384,1.392,0l2.043-2.043c1.14,0.775,2.486,1.21,3.925,1.21
-	c3.869,0,7.001-3.131,7.001-7.001C21.999,5.153,18.867,2.022,14.998,2.022z M14.998,14.022c-2.757,0-5-2.243-5-5s2.243-5,5-5
-	s5,2.243,5,5S17.755,14.022,14.998,14.022z"
-                  fill="url(#logo-gradient)"
-                />
-                <path
-                  d="M26.791,12.815c-0.289-0.289-0.758-0.289-1.047,0l-2.348,2.348c-0.089-0.34-0.199-0.67-0.328-0.988
-	c-0.339-0.83-0.811-1.6-1.401-2.268c-0.861-0.975-1.958-1.748-3.165-2.221C18.2,9.588,17.881,9.5,17.551,9.418l2.348-2.348
-	c0.289-0.289,0.289-0.758,0-1.047l-1.047-1.047c-0.289-0.289-0.758-0.289-1.047,0l-2.348,2.348c-0.34-0.089-0.67-0.199-0.988-0.328
-	c-0.83-0.339-1.6-0.811-2.268-1.401c-0.975-0.861-1.748-1.958-2.221-3.165C9.588,2.201,9.5,1.881,9.418,1.551L7.07,3.899
-	C6.781,4.188,6.312,4.188,6.023,3.899L4.976,2.852c-0.289-0.289-0.289-0.758,0-1.047l2.348-2.348c-1.002-0.25-2.035-0.13-2.99,0.39
-	C3.36,0.373,2.5,1.155,1.879,2.04c-0.852,1.211-1.278,2.625-1.2,4.075c0.07,1.269,0.51,2.483,1.24,3.525
-	c0.973,1.38,2.3,2.46,3.79,3.03c1.47,0.56,3.01,0.6,4.45-0.16l-2.348,2.348c-0.289,0.289-0.289,0.758,0,1.047l1.047,1.047
-	c0.289,0.289,0.758,0.289,1.047,0l2.348-2.348c0.34,0.089,0.67,0.199,0.988,0.328c0.83,0.339,1.6,0.811,2.268,1.401
-	c0.975,0.861,1.748,1.958,2.221,3.165c0.41,1.039,0.58,2.129,0.5,3.211l2.348-2.348c0.289-0.289,0.758-0.289,1.047,0l1.047,1.047
-	c0.289,0.289,0.289,0.758,0,1.047l-2.348,2.348c1.002,0.25,2.035,0.13,2.99-0.39c1.018-0.538,1.88-1.32,2.501-2.205
-	c0.852-1.211,1.278-2.625,1.2-4.075c-0.07-1.269-0.51-2.483-1.24-3.525C29.259,15.655,27.939,14.575,26.791,12.815z"
-                  fill="url(#logo-gradient)"
-                />
-              </g>
-              <text x="50" y="29" className="logo-text">Think AI Lite</text>
-            </svg>
+              <rect x="2" y="2" width="96" height="96" rx="20" ry="20" fill="black" />
+               <path
+                d="M30,35 C20,40 20,60 30,65 C35,68 40,65 40,60 L40,40 C40,35 35,32 30,35 Z 
+                   M30,35 C35,32 42,35 42,40 L42,45 
+                   C38,43 35,45 35,50 C35,55 38,57 42,55 L42,60 
+                   C42,65 35,68 30,65"
+                fill="none"
+                stroke="url(#logo-gradient)"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M48,50 L65,50"
+                fill="none"
+                stroke="url(#logo-gradient)"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+               <circle cx="70" cy="50" r="5" fill="url(#logo-gradient)" />
+               <path
+                d="M58,40 L75,40"
+                fill="none"
+                stroke="url(#logo-gradient)"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+               <circle cx="80" cy="40" r="5" fill="url(#logo-gradient)" />
+               <path
+                d="M58,60 L75,60"
+                fill="none"
+                stroke="url(#logo-gradient)"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+               <circle cx="80" cy="60" r="5" fill="url(#logo-gradient)" />
+
+               <rect x="2" y="2" width="96" height="96" rx="20" ry="20" fill="transparent" stroke="url(#logo-gradient)" strokeWidth="4" />
+             </svg>
           </div>
+           <span className="font-headline text-2xl font-bold text-foreground">Think AI Lite</span>
         </div>
         <NavMenu />
       </div>

@@ -24,7 +24,7 @@ export function Header() {
                       font-family: 'Space Grotesk', sans-serif;
                       font-size: 36px;
                       font-weight: bold;
-                      fill: hsl(var(--foreground));
+                      fill: url(#logo-gradient);
                     }
                   `}
                 </style>
@@ -41,31 +41,9 @@ export function Header() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-              <path
-                d="M48,50 L65,50"
-                fill="none"
-                stroke="url(#logo-gradient)"
-                strokeWidth="4"
-                strokeLinecap="round"
-              />
-               <circle cx="70" cy="50" r="5" fill="url(#logo-gradient)" />
-               <path
-                d="M58,40 L75,40"
-                fill="none"
-                stroke="url(#logo-gradient)"
-                strokeWidth="4"
-                strokeLinecap="round"
-              />
-               <circle cx="80" cy="40" r="5" fill="url(#logo-gradient)" />
-               <path
-                d="M58,60 L75,60"
-                fill="none"
-                stroke="url(#logo-gradient)"
-                strokeWidth="4"
-                strokeLinecap="round"
-              />
-               <circle cx="80" cy="60" r="5" fill="url(#logo-gradient)" />
-
+              <text x="58" y="65" textAnchor="middle" className="logo-text">
+                AI
+              </text>
                <rect x="2" y="2" width="96" height="96" rx="20" ry="20" fill="transparent" stroke="url(#logo-gradient)" strokeWidth="4" />
              </svg>
           </div>

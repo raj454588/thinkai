@@ -27,6 +27,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { Textarea } from './ui/textarea';
+import { useAuth } from '@/context/AuthContext';
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -50,6 +51,7 @@ export function SignUpForm() {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,12 +68,13 @@ export function SignUpForm() {
     // This is a mocked API call. In a real app, you'd send this to your backend.
     console.log('Signing up with:', values);
     setTimeout(() => {
+      login(values.username);
       setIsLoading(false);
       toast({
         title: 'Account created!',
         description: "You've been successfully signed up.",
       });
-      router.push('/login');
+      router.push('/');
     }, 1500);
   }
 

@@ -18,6 +18,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -32,6 +33,7 @@ export function LoginForm() {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,11 +48,12 @@ export function LoginForm() {
     // This is a mocked API call. In a real app, you'd verify credentials.
     console.log('Logging in with:', values);
     setTimeout(() => {
+      login(values.username);
       setIsLoading(false);
       // On successful login, you would typically receive a token and store it.
       toast({
         title: 'Login Successful!',
-        description: 'Welcome back!',
+        description: `Welcome back, ${values.username}!`,
       });
       router.push('/');
     }, 1500);

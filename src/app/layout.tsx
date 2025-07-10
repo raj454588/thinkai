@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { AuthProvider } from '@/context/AuthContext';
 
 export const metadata: Metadata = {
-  title: 'Think AI Lite',
+  title: 'Think AI',
   description: 'A conversational AI platform powered by Google Genkit.',
 };
 

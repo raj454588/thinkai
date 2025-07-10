@@ -14,15 +14,27 @@ export function Header() {
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
-                <linearGradient id="infinityGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 1 }} />
-                  <stop offset="100%" style={{ stopColor: 'hsl(var(--accent))', stopOpacity: 1 }} />
+                <linearGradient
+                  id="infinityGradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="100%"
+                >
+                  <stop
+                    offset="0%"
+                    style={{ stopColor: "hsl(var(--primary))", stopOpacity: 1 }}
+                  />
+                  <stop
+                    offset="100%"
+                    style={{ stopColor: "hsl(var(--accent))", stopOpacity: 1 }}
+                  />
                 </linearGradient>
               </defs>
               <path
                 d="M 25 50 C 25 25, 40 25, 50 50 C 60 75, 75 75, 75 50 C 75 25, 60 25, 50 50 C 40 75, 25 75, 25 50 Z"
                 stroke="url(#infinityGradient)"
-                strokeWidth="10"
+                strokeWidth="12"
                 fill="none"
                 strokeLinecap="round"
               />
@@ -30,7 +42,7 @@ export function Header() {
                 x="50"
                 y="58"
                 fontFamily="Space Grotesk, sans-serif"
-                fontSize="26"
+                fontSize="28"
                 fontWeight="bold"
                 fill="hsl(var(--foreground))"
                 textAnchor="middle"
@@ -39,7 +51,7 @@ export function Header() {
               </text>
             </svg>
           </div>
-           <span className="font-headline text-2xl font-bold text-foreground">Think AI Lite</span>
+           <span className="font-headline text-2xl font-bold text-foreground">Think AI</span>
         </div>
         <NavMenu />
       </div>

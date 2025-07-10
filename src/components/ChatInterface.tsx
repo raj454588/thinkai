@@ -79,7 +79,7 @@ export function ChatInterface() {
   };
 
   return (
-    <Card className="w-full max-w-4xl mx-auto flex flex-col h-[75vh]">
+    <Card className="w-full max-w-4xl mx-auto flex flex-col h-[80vh]">
       <CardHeader>
         <CardTitle className="font-headline text-primary">Conversational AI</CardTitle>
       </CardHeader>
@@ -90,7 +90,7 @@ export function ChatInterface() {
               <ChatMessage key={message.id} message={message} />
             ))}
             {isLoading && (
-              <div className="flex justify-start items-center">
+              <div className="flex justify-start items-center p-4">
                 <Loader2 className="h-6 w-6 text-primary animate-spin" />
               </div>
             )}

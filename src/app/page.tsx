@@ -2,7 +2,6 @@
 
 import { Header } from "@/components/Header";
 import { ChatInterface } from "@/components/ChatInterface";
-import { LandingSections } from "@/components/LandingSections";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -28,11 +27,10 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-secondary/40">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-8 flex flex-col gap-12">
+      <main className="flex-grow container mx-auto px-4 py-8 flex items-center justify-center">
         <ChatInterface />
-        <LandingSections />
       </main>
     </div>
   );

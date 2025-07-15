@@ -35,7 +35,7 @@ export default function Home() {
         <InfoSection />
       </main>
       <footer className="py-6 text-center text-sm text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} Think AI. Developed by Jug Kabariya & Akshay Hirpara.</p>
+        <p>&copy; {new Date().getFullYear()} Think AI. All rights reserved.</p>
       </footer>
     </div>
   );

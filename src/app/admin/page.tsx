@@ -13,7 +13,7 @@ import type { User } from '@/lib/types';
 
 
 export default function AdminPage() {
-  const { user, isLoading, users, addUser } = useAuth();
+  const { user, isLoading, addUser } = useAuth();
   const router = useRouter();
   const [isAddUserOpen, setIsAddUserOpen] = useState(false);
 

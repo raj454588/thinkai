@@ -11,7 +11,7 @@ export async function getAiResponse(input: { message: string }) {
   try {
     const validatedInput = getAiResponseSchema.parse(input);
     const result = await thinkAiAgent(validatedInput);
-    return { success: true, response: result.response, imageUrl: result.imageUrl };
+    return { success: true, response: result.response };
   } catch (error) {
     console.error("Error getting AI response:", error);
     if (error instanceof z.ZodError) {

@@ -5,7 +5,7 @@ import { useState, useRef, useEffect, type FormEvent } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Send, Loader2, LogIn, Image as ImageIcon } from 'lucide-react';
+import { Send, Loader2, LogIn } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ChatMessage } from './ChatMessage';
 import { getAiResponse } from '@/app/actions';
@@ -21,7 +21,7 @@ export function ChatInterface() {
     {
       id: 'init',
       role: 'ai',
-      content: "Hello! I am Think AI, your intelligent assistant. You can ask me questions, or try asking for an image like 'create a picture of a robot developer'.",
+      content: "Hello! I am Think AI, your intelligent assistant. How can I help you today?",
     },
   ]);
   const [input, setInput] = useState('');
@@ -76,7 +76,6 @@ export function ChatInterface() {
           id: Date.now().toString() + '-ai',
           role: 'ai',
           content: result.response || '',
-          imageUrl: result.imageUrl
         };
         setMessages((prev) => [...prev, aiMessage]);
       } else {
@@ -119,7 +118,7 @@ export function ChatInterface() {
        <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2">
           <Input
             id="message"
-            placeholder="Type your message, or ask for an image..."
+            placeholder="Type your message..."
             className="flex-1 text-base"
             autoComplete="off"
             value={input}

@@ -106,6 +106,12 @@ export function NavMenu() {
                 </Link>
             </Button>
           )}
+           <Button variant="ghost" asChild>
+                <Link href="/profile" className="flex items-center gap-2">
+                    <User className="h-5 w-5" />
+                    Profile
+                </Link>
+            </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className='gap-2'>
@@ -116,9 +122,6 @@ export function NavMenu() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href="/profile">Profile</Link>
-              </DropdownMenuItem>
               <DropdownMenuItem onClick={handleLogout} className="text-red-500 focus:text-red-400">
                 <LogOut className="mr-2 h-4 w-4" />
                 Logout

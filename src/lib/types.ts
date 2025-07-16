@@ -3,6 +3,7 @@ export interface Message {
   id: string;
   role: 'user' | 'ai';
   content: string;
+  imageUrl?: string;
 }
 
 export interface User {

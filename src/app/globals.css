@@ -66,4 +66,13 @@ body {
     border-width: 2px;
     animation: animated-border 5s linear infinite;
   }
+
+  @keyframes scroll-x {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-100% - 1rem)); }
+  }
+
+  .animate-scroll-x {
+    animation: scroll-x 30s linear infinite;
+  }
 }

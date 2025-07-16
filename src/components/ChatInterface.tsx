@@ -14,16 +14,11 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { SuggestionChips } from './SuggestionChips';
 
 export function ChatInterface() {
   const { isAuthenticated, user } = useAuth();
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 'init',
-      role: 'ai',
-      content: "Hello! I am Think AI, your intelligent assistant. How can I help you today?",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -44,10 +39,9 @@ export function ChatInterface() {
     }, 100);
     return () => clearTimeout(timer);
   }, [messages]);
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
+  
+  const handleSendMessage = async (messageContent: string) => {
+    if (!messageContent.trim() || isLoading) return;
 
     if (!isAuthenticated) {
       toast({
@@ -61,7 +55,7 @@ export function ChatInterface() {
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
-      content: input,
+      content: messageContent,
     };
 
     setMessages((prev) => [...prev, userMessage]);
@@ -69,7 +63,7 @@ export function ChatInterface() {
     setIsLoading(true);
 
     try {
-      const result = await getAiResponse({ message: input });
+      const result = await getAiResponse({ message: messageContent });
 
       if (result.success) {
         const aiMessage: Message = {
@@ -97,6 +91,12 @@ export function ChatInterface() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    handleSendMessage(input);
   };
 
   const renderFooter = () => {
@@ -136,28 +136,45 @@ export function ChatInterface() {
         </form>
     )
   }
+  
+  const showInitialUI = messages.length === 0 && !isLoading;
 
   return (
-    <Card className="w-full max-w-4xl mx-auto flex flex-col h-[70vh] md:h-[75vh] shadow-2xl shadow-primary/10 animate-borderline">
+    <Card className="w-full max-w-4xl mx-auto flex flex-col shadow-2xl shadow-primary/10 animate-borderline min-h-[70vh] md:min-h-[75vh] h-full">
       <CardHeader className="border-b">
         <CardTitle className="font-headline text-primary flex items-center gap-2 text-xl sm:text-2xl">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6"><path d="m12 1-1.88 4.22-4.22 1.88 4.22 1.88L12 13l1.88-4.22 4.22-1.88-4.22-1.88Z"/><path d="m12 13 1.88 4.22 4.22 1.88-4.22 1.88L12 23l-1.88-4.22-4.22-1.88 4.22-1.88Z"/><path d="m5.22 9.22 1.88-4.22L1 3l1.88 4.22Z"/><path d="m18.78 9.22-1.88-4.22L23 3l-1.88 4.22Z"/><path d="m5.22 14.78 1.88 4.22L1 21l1.88-4.22Z"/><path d="m18.78 14.78-1.88 4.22L23 21l-1.88-4.22Z"/></svg>
           Conversational AI
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex-grow overflow-hidden p-0">
-        <ScrollArea className="h-full" ref={scrollAreaRef}>
-          <div className="flex flex-col gap-1 p-2 sm:p-4">
-            {messages.map((message) => (
-              <ChatMessage key={message.id} message={message} />
-            ))}
-            {isLoading && isAuthenticated && (
-              <div className="flex justify-start items-center p-4">
-                <Loader2 className="h-6 w-6 text-primary animate-spin" />
+      <CardContent className="flex-grow overflow-hidden p-0 flex flex-col">
+        {showInitialUI ? (
+          <div className="flex-grow flex flex-col items-center justify-center p-4 text-center">
+            <h2 className="text-3xl font-bold font-headline mb-4">What can I help with?</h2>
+            <div className="w-full max-w-2xl overflow-hidden relative">
+              <div className="flex animate-scroll-x hover:animation-play-state-paused gap-4 py-4">
+                 <SuggestionChips onSuggestionClick={handleSendMessage} />
+                 {/* Duplicate for seamless scrolling */}
+                 <SuggestionChips onSuggestionClick={handleSendMessage} aria-hidden="true" />
               </div>
-            )}
+              <div className="absolute top-0 left-0 w-16 h-full bg-gradient-to-r from-card to-transparent pointer-events-none"></div>
+              <div className="absolute top-0 right-0 w-16 h-full bg-gradient-to-l from-card to-transparent pointer-events-none"></div>
+            </div>
           </div>
-        </ScrollArea>
+        ) : (
+          <ScrollArea className="h-full" ref={scrollAreaRef}>
+            <div className="flex flex-col gap-1 p-2 sm:p-4">
+              {messages.map((message) => (
+                <ChatMessage key={message.id} message={message} />
+              ))}
+              {isLoading && isAuthenticated && (
+                <div className="flex justify-start items-center p-4">
+                  <Loader2 className="h-6 w-6 text-primary animate-spin" />
+                </div>
+              )}
+            </div>
+          </ScrollArea>
+        )}
       </CardContent>
       <CardFooter className="border-t pt-4 sm:pt-6 px-2 sm:px-6">
         {renderFooter()}

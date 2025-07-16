@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { Menu, User, LogOut, ShieldCheck } from 'lucide-react';
+import { Menu, User, LogOut, ShieldCheck, Code2 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -40,20 +40,25 @@ export function NavMenu() {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Navigation</DropdownMenuLabel>
           <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <Link href="/">Chat</Link>
+          </DropdownMenuItem>
+           <DropdownMenuItem asChild>
+            <Link href="/developers">Developers</Link>
+          </DropdownMenuItem>
           {isAuthenticated ? (
              <>
-              <DropdownMenuItem asChild>
-                <Link href="/">Chat</Link>
-              </DropdownMenuItem>
               {isAdmin && (
                 <DropdownMenuItem asChild>
                   <Link href="/admin">Admin</Link>
                 </DropdownMenuItem>
               )}
+              <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
             </>
           ) : (
             <>
+              <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href="/login">Login</Link>
               </DropdownMenuItem>
@@ -68,7 +73,17 @@ export function NavMenu() {
   }
 
   return (
-    <nav className="flex items-center gap-4">
+    <nav className="flex items-center gap-2">
+        <Button variant="ghost" asChild>
+            <Link href="/" >
+                Chat
+            </Link>
+        </Button>
+        <Button variant="ghost" asChild>
+            <Link href="/developers" >
+                Developers
+            </Link>
+        </Button>
       {isAuthenticated ? (
         <>
           {isAdmin && (

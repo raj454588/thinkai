@@ -8,10 +8,10 @@ import { useToast } from '@/hooks/use-toast';
 
 // Mock user data
 const initialUsers: User[] = [
-  { id: '1', username: 'admin', mobile: '0000000000', skill: 'Superuser', aiKnowledge: 'advanced', password: 'adminpassword' },
-  { id: '2', username: 'jug.k', mobile: '1234567890', skill: 'React, Genkit', aiKnowledge: 'intermediate', password: 'password123' },
-  { id: '3', username: 'akshay.h', mobile: '0987654321', skill: 'Next.js, Tailwind', aiKnowledge: 'intermediate', password: 'password456' },
-  { id: '4', username: 'new_dev', mobile: '5555555555', skill: 'HTML, CSS', aiKnowledge: 'beginner', password: 'password789' },
+  { id: '1', username: 'admin', email: 'admin@example.com', emailVerified: true, mobile: '0000000000', skill: 'Superuser', aiKnowledge: 'advanced', password: 'adminpassword' },
+  { id: '2', username: 'jug.k', email: 'jug@example.com', emailVerified: true, mobile: '1234567890', skill: 'React, Genkit', aiKnowledge: 'intermediate', password: 'password123' },
+  { id: '3', username: 'akshay.h', email: 'akshay@example.com', emailVerified: true, mobile: '0987654321', skill: 'Next.js, Tailwind', aiKnowledge: 'intermediate', password: 'password456' },
+  { id: '4', username: 'new_dev', email: 'dev@example.com', emailVerified: true, mobile: '5555555555', skill: 'HTML, CSS', aiKnowledge: 'beginner', password: 'password789' },
 ];
 
 interface AuthContextType {
@@ -20,10 +20,12 @@ interface AuthContextType {
   users: User[];
   isLoading: boolean;
   login: (username: string, password?: string) => boolean;
+  loginWithEmail: (email: string) => boolean;
   logout: () => void;
-  addUser: (user: Omit<User, 'id'>) => void;
+  addUser: (user: Omit<User, 'id' | 'emailVerified'>) => { success: boolean, error?: string };
   updateUser: (user: User) => void;
   deleteUser: (userId: string) => void;
+  verifyUserEmail: (email: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -39,7 +41,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
-        setUser(JSON.parse(storedUser));
+        const parsedUser = JSON.parse(storedUser);
+        if (parsedUser.emailVerified) {
+             setUser(parsedUser);
+        }
       }
       const storedUsers = localStorage.getItem('users');
       if (storedUsers) {
@@ -60,8 +65,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const userToLogin = users.find(u => u.username === username);
 
     if (userToLogin) {
-      // In a real app, you'd verify the hashed password. Here we mock it.
-      // For sign-up, we don't have a password to check.
+      if (!userToLogin.emailVerified) {
+        toast({
+            title: "Verification Required",
+            description: "Please verify your email before logging in.",
+            variant: "destructive",
+        });
+        return false;
+      }
+      
       if (!password || userToLogin.password === password) {
         setUser(userToLogin);
         localStorage.setItem('user', JSON.stringify(userToLogin));
@@ -70,6 +82,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     return false;
   };
+
+  const loginWithEmail = (email: string) => {
+    const userToLogin = users.find(u => u.email === email);
+    if (userToLogin && userToLogin.emailVerified) {
+        setUser(userToLogin);
+        localStorage.setItem('user', JSON.stringify(userToLogin));
+        return true;
+    }
+    return false;
+  }
   
   const logout = () => {
     setUser(null);
@@ -81,19 +103,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('users', JSON.stringify(updatedUsers));
   }
 
-  const addUser = (newUser: Omit<User, 'id'>) => {
+  const addUser = (newUser: Omit<User, 'id' | 'emailVerified'>) => {
     if (users.some(u => u.username === newUser.username)) {
-      toast({
-        title: "Error",
-        description: "Username already exists.",
-        variant: "destructive",
-      });
-      return;
+      return { success: false, error: "Username already exists." };
     }
-    const userWithId = { ...newUser, id: Date.now().toString() };
+     if (users.some(u => u.email === newUser.email)) {
+      return { success: false, error: "Email already exists." };
+    }
+    const userWithId = { ...newUser, id: Date.now().toString(), emailVerified: false };
     const updatedUsers = [...users, userWithId];
     syncUsersToStorage(updatedUsers);
-    toast({ title: "Success", description: "User added successfully." });
+    return { success: true };
   };
 
   const updateUser = (updatedUser: User) => {
@@ -116,16 +136,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     toast({ title: "Success", description: "User deleted successfully." });
   };
   
+  const verifyUserEmail = (email: string) => {
+    const updatedUsers = users.map(u => u.email === email ? { ...u, emailVerified: true } : u);
+    syncUsersToStorage(updatedUsers);
+  };
+  
   const value = {
     isAuthenticated: !!user,
     user,
     users,
     isLoading,
     login,
+    loginWithEmail,
     logout,
     addUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    verifyUserEmail,
   };
 
   return (

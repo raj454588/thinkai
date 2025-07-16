@@ -8,6 +8,8 @@ export interface Message {
 export interface User {
   id: string;
   username: string;
+  email: string;
+  emailVerified: boolean;
   password?: string;
   mobile: string;
   skill: string;

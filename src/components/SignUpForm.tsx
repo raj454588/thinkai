@@ -29,11 +29,13 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { Textarea } from './ui/textarea';
 import { useAuth } from '@/context/AuthContext';
+import { handleGenerateOtp } from '@/app/actions';
 
 const formSchema = z.object({
   username: z.string().min(2, {
     message: 'Username must be at least 2 characters.',
   }),
+  email: z.string().email({ message: 'Please enter a valid email address.' }),
   password: z.string().min(8, {
     message: 'Password must be at least 8 characters.',
   }),
@@ -52,31 +54,51 @@ export function SignUpForm() {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { addUser, login } = useAuth();
+  const { addUser } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: '',
+      email: '',
       password: '',
       mobile: '',
       skill: '',
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    // This is a mocked API call.
-    setTimeout(() => {
-      addUser(values);
-      login(values.username); // Auto-login after sign up
-      setIsLoading(false);
+    
+    const addUserResult = addUser(values);
+
+    if (!addUserResult.success) {
       toast({
-        title: 'Account created!',
-        description: "You've been successfully signed up.",
+        title: 'Sign Up Failed',
+        description: addUserResult.error,
+        variant: 'destructive',
       });
-      router.push('/');
-    }, 1500);
+      setIsLoading(false);
+      return;
+    }
+
+    const otpResult = await handleGenerateOtp(values.email);
+    
+    setIsLoading(false);
+
+    if (otpResult.success) {
+       toast({
+        title: 'Verification Code Sent!',
+        description: `We've sent an OTP to ${values.email}.`,
+      });
+      router.push(`/verify-email?email=${encodeURIComponent(values.email)}`);
+    } else {
+       toast({
+        title: 'Error',
+        description: otpResult.error || 'Could not send verification code.',
+        variant: 'destructive',
+      });
+    }
   }
 
   return (
@@ -90,6 +112,19 @@ export function SignUpForm() {
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input placeholder="your_username" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input type="email" placeholder="you@example.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

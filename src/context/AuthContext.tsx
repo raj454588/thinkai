@@ -58,7 +58,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = (username: string, password?: string) => {
-    const userToLogin = users.find(u => u.username === username);
+    // When logging in, we need the most up-to-date user list
+    const currentUsers = JSON.parse(localStorage.getItem('users') || '[]') as User[];
+    const userToLogin = currentUsers.find(u => u.username === username);
 
     if (userToLogin) {
       if (!password || userToLogin.password === password) {
@@ -97,7 +99,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const updateUser = (updatedUser: User) => {
     const updatedUsers = users.map(u => u.id === updatedUser.id ? updatedUser : u);
     syncUsersToStorage(updatedUsers);
-     toast({ title: "Success", description: "User updated successfully." });
+
+    // Also update the currently logged-in user state if they are the one being updated
+    if(user?.id === updatedUser.id) {
+        setUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+    }
+
+     toast({ title: "Success", description: "User details updated successfully." });
   };
 
   const deleteUser = (userId: string) => {

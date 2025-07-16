@@ -51,6 +51,10 @@ export function NavMenu() {
           </DropdownMenuItem>
           {isAuthenticated ? (
              <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/profile">Profile</Link>
+              </DropdownMenuItem>
               {isAdmin && (
                 <DropdownMenuItem asChild>
                   <Link href="/admin">Admin</Link>
@@ -112,7 +116,9 @@ export function NavMenu() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem disabled>Profile</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/profile">Profile</Link>
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={handleLogout} className="text-red-500 focus:text-red-400">
                 <LogOut className="mr-2 h-4 w-4" />
                 Logout

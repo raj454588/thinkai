@@ -2,17 +2,8 @@
 'use client';
 
 import type { User } from '@/lib/types';
-import { TrendingUp } from "lucide-react"
 import { Pie, PieChart, Cell } from "recharts"
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import {
   ChartContainer,
   ChartTooltip,
@@ -51,6 +42,14 @@ export function GenderDistributionChart({ users }: GenderDistributionChartProps)
           label: "Female",
           color: "hsl(var(--chart-2))",
         },
+    };
+
+    if (chartData.length === 0) {
+        return (
+            <div className="flex items-center justify-center h-[250px] text-muted-foreground">
+                No data to display.
+            </div>
+        )
     }
 
     return (
@@ -74,6 +73,7 @@ export function GenderDistributionChart({ users }: GenderDistributionChartProps)
                     <Cell key={entry.gender} fill={entry.fill} />
                 ))}
             </Pie>
-            </ChartContainer>
+            </PieChart>
+        </ChartContainer>
     )
 }

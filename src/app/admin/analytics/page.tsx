@@ -11,8 +11,10 @@ export default function AnalyticsPage() {
     const { users } = useAuth();
 
     const totalUsers = users.length;
-    const averageAge = totalUsers > 0 
-        ? Math.round(users.reduce((acc, user) => acc + user.age, 0) / totalUsers)
+    
+    const usersWithAge = users.filter(user => typeof user.age === 'number');
+    const averageAge = usersWithAge.length > 0 
+        ? Math.round(usersWithAge.reduce((acc, user) => acc + user.age, 0) / usersWithAge.length)
         : 0;
     
     return (

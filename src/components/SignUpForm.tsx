@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,8 +26,8 @@ import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import { Textarea } from './ui/textarea';
 import { useAuth } from '@/context/AuthContext';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -41,8 +40,9 @@ const formSchema = z.object({
   mobile: z.string().regex(/^\d{10}$/, {
     message: 'Please enter a valid 10-digit mobile number.',
   }),
-  skill: z.string().min(2, {
-    message: 'Please describe your skills.',
+  age: z.coerce.number().min(1, { message: 'Please enter a valid age.' }),
+  gender: z.enum(['male', 'female'], {
+    required_error: 'Please select your gender.',
   }),
   aiKnowledge: z.enum(['beginner', 'intermediate', 'advanced'], {
     required_error: 'Please select your AI knowledge level.',
@@ -62,7 +62,7 @@ export function SignUpForm() {
       email: '',
       password: '',
       mobile: '',
-      skill: '',
+      age: 0,
     },
   });
 
@@ -159,16 +159,43 @@ export function SignUpForm() {
         />
         <FormField
           control={form.control}
-          name="skill"
+          name="age"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Skills</FormLabel>
+              <FormLabel>Age</FormLabel>
               <FormControl>
-                <Textarea placeholder="e.g., React, Next.js, Genkit" {...field} />
+                <Input type="number" placeholder="25" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : parseInt(e.target.value, 10))} />
               </FormControl>
-              <FormDescription>
-                Briefly describe your technical skills.
-              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="gender"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>Gender</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className="flex items-center space-x-4"
+                >
+                  <FormItem className="flex items-center space-x-2 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="male" />
+                    </FormControl>
+                    <FormLabel className="font-normal">Male</FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-2 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="female" />
+                    </FormControl>
+                    <FormLabel className="font-normal">Female</FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

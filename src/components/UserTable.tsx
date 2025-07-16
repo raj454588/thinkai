@@ -48,8 +48,9 @@ export function UserTable() {
             <TableRow>
               <TableHead>Username</TableHead>
               <TableHead className="hidden md:table-cell">Mobile</TableHead>
+              <TableHead className="hidden sm:table-cell">Age</TableHead>
+              <TableHead className="hidden sm:table-cell">Gender</TableHead>
               <TableHead>AI Knowledge</TableHead>
-              <TableHead className="hidden lg:table-cell">Skills</TableHead>
               <TableHead>
                 <span className="sr-only">Actions</span>
               </TableHead>
@@ -60,6 +61,8 @@ export function UserTable() {
               <TableRow key={user.id}>
                 <TableCell className="font-medium">{user.username}</TableCell>
                 <TableCell className="hidden md:table-cell">{user.mobile}</TableCell>
+                <TableCell className="hidden sm:table-cell">{user.age}</TableCell>
+                <TableCell className="hidden sm:table-cell capitalize">{user.gender}</TableCell>
                 <TableCell>
                   <Badge variant={
                       user.aiKnowledge === 'advanced' ? 'default' : 
@@ -68,7 +71,6 @@ export function UserTable() {
                       {user.aiKnowledge}
                   </Badge>
                 </TableCell>
-                <TableCell className="hidden lg:table-cell">{user.skill}</TableCell>
                 <TableCell>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -117,4 +119,3 @@ export function UserTable() {
     </>
   );
 }
-

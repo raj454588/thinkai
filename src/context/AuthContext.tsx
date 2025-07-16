@@ -8,10 +8,10 @@ import { useToast } from '@/hooks/use-toast';
 
 // Mock user data
 const initialUsers: User[] = [
-  { id: '1', username: 'admin', email: 'admin@example.com', emailVerified: true, mobile: '0000000000', skill: 'Superuser', aiKnowledge: 'advanced', password: 'adminpassword' },
-  { id: '2', username: 'jug.k', email: 'jug@example.com', emailVerified: true, mobile: '1234567890', skill: 'React, Genkit', aiKnowledge: 'intermediate', password: 'password123' },
-  { id: '3', username: 'akshay.h', email: 'akshay@example.com', emailVerified: true, mobile: '0987654321', skill: 'Next.js, Tailwind', aiKnowledge: 'intermediate', password: 'password456' },
-  { id: '4', username: 'new_dev', email: 'dev@example.com', emailVerified: true, mobile: '5555555555', skill: 'HTML, CSS', aiKnowledge: 'beginner', password: 'password789' },
+  { id: '1', username: 'admin', email: 'admin@example.com', emailVerified: true, mobile: '0000000000', age: 30, gender: 'male', aiKnowledge: 'advanced', password: 'adminpassword' },
+  { id: '2', username: 'jug.k', email: 'jug@example.com', emailVerified: true, mobile: '1234567890', age: 25, gender: 'male', aiKnowledge: 'intermediate', password: 'password123' },
+  { id: '3', username: 'akshay.h', email: 'akshay@example.com', emailVerified: true, mobile: '0987654321', age: 28, gender: 'male', aiKnowledge: 'intermediate', password: 'password456' },
+  { id: '4', username: 'new_dev', email: 'dev@example.com', emailVerified: true, mobile: '5555555555', age: 22, gender: 'female', aiKnowledge: 'beginner', password: 'password789' },
 ];
 
 interface AuthContextType {

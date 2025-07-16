@@ -9,9 +9,10 @@ export interface User {
   id: string;
   username: string;
   email: string;
-  emailVerified: boolean; // Kept for consistency, but will default to true
+  emailVerified: boolean;
   password?: string;
   mobile: string;
-  skill: string;
+  age: number;
+  gender: 'male' | 'female';
   aiKnowledge: 'beginner' | 'intermediate' | 'advanced';
 }

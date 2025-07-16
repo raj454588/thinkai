@@ -29,7 +29,6 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { Textarea } from './ui/textarea';
 import { useAuth } from '@/context/AuthContext';
-import { handleGenerateOtp } from '@/app/actions';
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -54,7 +53,7 @@ export function SignUpForm() {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { addUser } = useAuth();
+  const { addUser, login } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -67,7 +66,7 @@ export function SignUpForm() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     
     const addUserResult = addUser(values);
@@ -82,22 +81,24 @@ export function SignUpForm() {
       return;
     }
 
-    const otpResult = await handleGenerateOtp(values.email);
-    
+    // Automatically log the user in after successful sign-up
+    const loginSuccess = login(values.username, values.password);
+
     setIsLoading(false);
 
-    if (otpResult.success) {
+    if (loginSuccess) {
        toast({
-        title: 'Verification Code Sent!',
-        description: `We've sent an OTP to ${values.email}.`,
+        title: 'Sign Up Successful!',
+        description: `Welcome, ${values.username}!`,
       });
-      router.push(`/verify-email?email=${encodeURIComponent(values.email)}`);
+      router.push('/'); // Redirect to home page
     } else {
        toast({
         title: 'Error',
-        description: otpResult.error || 'Could not send verification code.',
+        description: 'An unexpected error occurred during login. Please try logging in manually.',
         variant: 'destructive',
       });
+      router.push('/login');
     }
   }
 

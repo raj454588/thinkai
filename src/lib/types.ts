@@ -9,7 +9,7 @@ export interface User {
   id: string;
   username: string;
   email: string;
-  emailVerified: boolean;
+  emailVerified: boolean; // Kept for consistency, but will default to true
   password?: string;
   mobile: string;
   skill: string;

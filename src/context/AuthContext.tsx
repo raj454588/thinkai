@@ -20,12 +20,10 @@ interface AuthContextType {
   users: User[];
   isLoading: boolean;
   login: (username: string, password?: string) => boolean;
-  loginWithEmail: (email: string) => boolean;
   logout: () => void;
   addUser: (user: Omit<User, 'id' | 'emailVerified'>) => { success: boolean, error?: string };
   updateUser: (user: User) => void;
   deleteUser: (userId: string) => void;
-  verifyUserEmail: (email: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -42,9 +40,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
         const parsedUser = JSON.parse(storedUser);
-        if (parsedUser.emailVerified) {
-             setUser(parsedUser);
-        }
+        setUser(parsedUser);
       }
       const storedUsers = localStorage.getItem('users');
       if (storedUsers) {
@@ -65,15 +61,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const userToLogin = users.find(u => u.username === username);
 
     if (userToLogin) {
-      if (!userToLogin.emailVerified) {
-        toast({
-            title: "Verification Required",
-            description: "Please verify your email before logging in.",
-            variant: "destructive",
-        });
-        return false;
-      }
-      
       if (!password || userToLogin.password === password) {
         setUser(userToLogin);
         localStorage.setItem('user', JSON.stringify(userToLogin));
@@ -82,16 +69,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     return false;
   };
-
-  const loginWithEmail = (email: string) => {
-    const userToLogin = users.find(u => u.email === email);
-    if (userToLogin && userToLogin.emailVerified) {
-        setUser(userToLogin);
-        localStorage.setItem('user', JSON.stringify(userToLogin));
-        return true;
-    }
-    return false;
-  }
   
   const logout = () => {
     setUser(null);
@@ -110,7 +87,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
      if (users.some(u => u.email === newUser.email)) {
       return { success: false, error: "Email already exists." };
     }
-    const userWithId = { ...newUser, id: Date.now().toString(), emailVerified: false };
+    // New users are automatically verified in this simplified flow
+    const userWithId = { ...newUser, id: Date.now().toString(), emailVerified: true };
     const updatedUsers = [...users, userWithId];
     syncUsersToStorage(updatedUsers);
     return { success: true };
@@ -136,23 +114,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     toast({ title: "Success", description: "User deleted successfully." });
   };
   
-  const verifyUserEmail = (email: string) => {
-    const updatedUsers = users.map(u => u.email === email ? { ...u, emailVerified: true } : u);
-    syncUsersToStorage(updatedUsers);
-  };
-  
   const value = {
     isAuthenticated: !!user,
     user,
     users,
     isLoading,
     login,
-    loginWithEmail,
     logout,
     addUser,
     updateUser,
     deleteUser,
-    verifyUserEmail,
   };
 
   return (

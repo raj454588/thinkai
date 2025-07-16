@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { Menu, User, LogOut, ShieldCheck, Code2 } from 'lucide-react';
+import { Menu, User, LogOut, ShieldCheck, Info } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -45,6 +45,9 @@ export function NavMenu() {
           </DropdownMenuItem>
            <DropdownMenuItem asChild>
             <Link href="/developers">Developers</Link>
+          </DropdownMenuItem>
+           <DropdownMenuItem asChild>
+            <Link href="/about">About Us</Link>
           </DropdownMenuItem>
           {isAuthenticated ? (
              <>
@@ -82,6 +85,11 @@ export function NavMenu() {
         <Button variant="ghost" asChild>
             <Link href="/developers" >
                 Developers
+            </Link>
+        </Button>
+         <Button variant="ghost" asChild>
+            <Link href="/about" >
+                About Us
             </Link>
         </Button>
       {isAuthenticated ? (

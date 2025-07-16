@@ -54,6 +54,6 @@ const thinkAiAgentFlow = ai.defineFlow(
     if (!output) {
       return { response: "I'm sorry, I couldn't generate a response." };
     }
-    return { response: output.text! };
+    return { response: output.response };
   }
 );

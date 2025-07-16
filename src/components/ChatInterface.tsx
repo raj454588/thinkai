@@ -102,11 +102,11 @@ export function ChatInterface() {
   const renderFooter = () => {
     if (!isAuthenticated) {
       return (
-        <div className="flex w-full items-center justify-center gap-4">
-            <p className="text-muted-foreground">Please log in to start a conversation.</p>
-            <Button asChild>
+        <div className="flex w-full items-center justify-center gap-4 text-center flex-wrap">
+            <p className="text-muted-foreground text-sm sm:text-base">Please log in to start a conversation.</p>
+            <Button asChild size="sm">
                 <Link href="/login">
-                    <LogIn className="mr-2 h-5 w-5" />
+                    <LogIn className="mr-2 h-4 w-4" />
                     Login / Sign Up
                 </Link>
             </Button>
@@ -138,16 +138,16 @@ export function ChatInterface() {
   }
 
   return (
-    <Card className="w-full max-w-4xl mx-auto flex flex-col h-[75vh] shadow-2xl shadow-primary/10 animate-borderline">
+    <Card className="w-full max-w-4xl mx-auto flex flex-col h-[70vh] md:h-[75vh] shadow-2xl shadow-primary/10 animate-borderline">
       <CardHeader className="border-b">
-        <CardTitle className="font-headline text-primary flex items-center gap-2">
+        <CardTitle className="font-headline text-primary flex items-center gap-2 text-xl sm:text-2xl">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6"><path d="m12 1-1.88 4.22-4.22 1.88 4.22 1.88L12 13l1.88-4.22 4.22-1.88-4.22-1.88Z"/><path d="m12 13 1.88 4.22 4.22 1.88-4.22 1.88L12 23l-1.88-4.22-4.22-1.88 4.22-1.88Z"/><path d="m5.22 9.22 1.88-4.22L1 3l1.88 4.22Z"/><path d="m18.78 9.22-1.88-4.22L23 3l-1.88 4.22Z"/><path d="m5.22 14.78 1.88 4.22L1 21l1.88-4.22Z"/><path d="m18.78 14.78-1.88 4.22L23 21l-1.88-4.22Z"/></svg>
           Conversational AI
         </CardTitle>
       </CardHeader>
       <CardContent className="flex-grow overflow-hidden p-0">
         <ScrollArea className="h-full" ref={scrollAreaRef}>
-          <div className="flex flex-col gap-1 p-4">
+          <div className="flex flex-col gap-1 p-2 sm:p-4">
             {messages.map((message) => (
               <ChatMessage key={message.id} message={message} />
             ))}
@@ -159,7 +159,7 @@ export function ChatInterface() {
           </div>
         </ScrollArea>
       </CardContent>
-      <CardFooter className="border-t pt-6">
+      <CardFooter className="border-t pt-4 sm:pt-6 px-2 sm:px-6">
         {renderFooter()}
       </CardFooter>
     </Card>

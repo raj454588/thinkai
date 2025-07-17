@@ -4,6 +4,8 @@
 import { Header } from "@/components/Header";
 import { ChatInterface } from "@/components/ChatInterface";
 import { InfoSection } from "@/components/InfoSection";
+import { Faq } from "@/components/Faq";
+import { Testimonials } from "@/components/Testimonials";
 
 export default function Home() {
   return (
@@ -12,6 +14,8 @@ export default function Home() {
       <main className="flex-grow container mx-auto px-4 py-6 md:py-8 flex flex-col items-center justify-start gap-8 md:gap-12">
         <ChatInterface />
         <InfoSection />
+        <Testimonials />
+        <Faq />
       </main>
     </div>
   );

@@ -13,9 +13,6 @@ export default function Home() {
         <ChatInterface />
         <InfoSection />
       </main>
-      <footer className="py-6 text-center text-sm text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} Think AI. All rights reserved.</p>
-      </footer>
     </div>
   );
 }
